@@ -1,0 +1,9 @@
+[submodule "ATPPython"]
+	path = ATPPython
+	url = https://github.com/dannymartin/ATPPython.git
+[submodule "ATPJava"]
+	path = ATPJava
+	url = https://github.com/sblack4/ATP-REST-Java.git
+[submodule "ATPNode"]
+	path = ATPNode
+	url = https://github.com/kbhanush/ATP-REST-nodejs.git
