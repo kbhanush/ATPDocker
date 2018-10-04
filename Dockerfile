@@ -26,13 +26,13 @@ RUN echo 'installing oci_cli, requests, cx_Oracle' && \
 
 # Setup folder structure
 
-#Setup oracle instant client and sqlcl
+# Setup oracle instant client and sqlcl
+
 
 ENV SQLPLUS oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm
 ENV SQLCL sqlcl-18.2.0.zip
 ENV INSTANT_CLIENT oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm
 # ENV NODEJS node-v8.12.0-linux-x64.tar.xz
-
 
 # set working directory
 WORKDIR /opt/oracle/lib
@@ -79,28 +79,29 @@ ADD ojdbc8-full.tar.gz .
 # Sample apps - Java, Python, Node
 # in /opt/oracle/apps/<app_name>
 # Java 
-ENV JAVA_APP /opt/oracle/apps/ATP-REST-Java
+ENV JAVA_APP /opt/oracle/tools/java/sdk
 WORKDIR ${JAVA_APP}
-ADD https://github.com/sblack4/ATP-REST-Java/releases/download/v0.1/atp-rest-scripts.jar .
-ADD ATPJava/run-java-examples.sh .
-ADD picocli-3.6.1.jar .
-RUN mkdir lib && \
-    mv picocli-3.6.1.jar lib
-ENV PATH $PATH:${JAVA_APP}
+RUN git clone https://github.com/sblack4/ATP-REST-Java.git ATPJava && \
+    cd ATPJava && \
+    mkdir lib
+WORKDIR ${JAVA_APP}/ATPJava
+ADD https://github.com/sblack4/ATP-REST-Java/releases/download/V0.2/atp-rest-scripts.jar .
+ADD picocli-3.6.1.jar lib
+ENV PATH $PATH:${JAVA_APP}/ATPJava
 
 # Python
-ENV PYTHON_APP /opt/oracle/apps/ATPPython
+ENV PYTHON_APP /opt/oracle/tools/python/sdk
 WORKDIR ${PYTHON_APP}
 RUN git clone https://github.com/dannymartin/ATPPython.git
 ENV PATH $PATH:${PYTHON_APP}/ATPPython/python-rest-api
 
 # Node 
-ENV NODE_APP /opt/oracle/apps/ATPNode
+ENV NODE_APP /opt/oracle/tools/nodejs
 WORKDIR ${NODE_APP}
-RUN git clone https://github.com/kbhanush/ATP-REST-nodejs.git && \
-    cd ATP-REST-nodejs && \
+RUN git clone https://github.com/kbhanush/ATP-REST-nodejs.git ATPNode && \
+    cd ATPNode && \
     npm install 
-ENV PATH $PATH:${NODE_APP}
+ENV PATH $PATH:${NODE_APP}/ATPNode
 
 
 # Uninstall packages
