@@ -56,7 +56,7 @@ To run you'll need to get those values and make sure that you've got Docker inst
 7. run the docker container with `docker run -it oci bash`
 1. copy your `~/.oci/config` to your container by running the command 
 ```bash
-docker cp ~/.oci <CONTAINER_NAME>:~
+docker cp ~/.oci <CONTAINER_NAME>:/root
 ```
 8. play with the example scripts! the container has the text editor `nano`
 
