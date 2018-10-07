@@ -3,14 +3,20 @@ Sample Scripts to get started with Oracle's OCI SDK & CLI. Packaged with love in
 
 
 ## About
-Try out the Oracle Cloud Infrastructure Java SDK! I've tried to make this as simple as possible, but to *reallly* use the SDK you must read the docs! For developing with the `java` SDK read the java sdk docs, but if all you want to do is run this app you can get by with the SDK/CLI configuration docs. They will walk you through getting the required values to authenticate. 
+Try out the Oracle Cloud Infrastructure Java SDK! I've tried to make this as simple as possible, but to *reallly* use the SDK you must read the docs! For developing read the appropriate sdk docs, but if all you want to do is run this app you can get by with the SDK/CLI configuration docs. They will walk you through getting the required values to authenticate. 
 
-- java sdk docs https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/javasdk.htm 
-- download the java sdk https://github.com/oracle/oci-java-sdk/releases 
+- java sdk  https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/javasdk.htm 
+- python sdk https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/pythonsdk.htm
 - sdk/cli config docs https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm 
-- Download SQLcl https://www.oracle.com/technetwork/developer-tools/sqlcl/overview/index.html 
+
 
 ### Example Scripts 
+these are the scripts, try them out with `node <command>.js`, `python <command>.py`, or `<command>` for java :)
+
+For java the [Class Path](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html) can be long I've written shell scripts 
+to make demoing the functionality easier :) 
+
+listed as `COMMAND [-h for help] [arg_1 arg_2 ...]` 
 
 ```
 createAutonomousDatabase DBNAME DISPLAYNAME PASSWORD CPUCOUNT STORAGEINTBS
@@ -51,13 +57,18 @@ To run you'll need to get those values and make sure that you've got Docker inst
 3. generate key `openssl genrsa -out ~/.oci/oci_api_key.pem 2048` *
 4. make public key *
 5. add public key to tenancy *
-1. download dependencies (instantClient, sqlcl, ojdbc8, sqlplus, picocli)
+1. download dependencies and place in this directory
+    - [instantClient](https://www.oracle.com/technetwork/database/database-technologies/instant-client/downloads/index.html) oracle-instantclient12.2-sqlplus-12.2.0.1.0-1.x86_64.rpm 
+    - [sqlcl](https://www.oracle.com/technetwork/developer-tools/sqlcl/downloads/index.html) sqlcl-18.2.0.zip 
+    - ojdbc8 (v18.3) https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/index.html 
+    - [sqlplus](https://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm 
 6. build the docker image with `docker build -t oci .`
 7. run the docker container with `docker run -it oci bash`
-1. copy your `~/.oci/config` to your container by running the command 
+1. in another terminal window copy your `~/.oci` to your container by running the command 
 ```bash
 docker cp ~/.oci <CONTAINER_NAME>:/root
 ```
+1. also copy over your wallet file if you want to connect to the database
 8. play with the example scripts! the container has the text editor `nano`
 
 
@@ -77,3 +88,5 @@ region=us-ashburn-1
 - https://github.com/kbhanush/ATP-REST-nodejs
 - https://github.com/dannymartin/ATPPython
 - https://github.com/sblack4/ATP-REST-Java
+- https://github.com/kbhanush/aOne
+- https://github.com/christopherbeck/OCI-Rest-APIs-nodejs 

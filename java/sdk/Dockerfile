@@ -2,7 +2,7 @@ FROM oraclelinux:7-slim
 
 MAINTAINER oracle
 
-RUN yum -y install java-1.8.0-openjdk wget && rm -rf /var/cache/yum
+RUN yum -y install java-1.8.0-openjdk && rm -rf /var/cache/yum
 
 ENV JAVA_HOME /usr/lib/jvm/java-openjdk
 
@@ -55,9 +55,7 @@ ENV PATH $PATH:/usr/lib/oracle/12.2/client64/bin:/opt/oracle/lib/sqlcl/bin
 
 WORKDIR /opt/oracle/tools/nodejs
 RUN mkdir sdk restapi apps && \
-    cd restapi && \
-    git clone https://github.com/kbhanush/ATP-REST-nodejs && \
-    npm install -g oracledb http-signature jssha 
+    npm install oracledb http-signature jssha 
 # Get the ATPConnectionTest node app
 WORKDIR /opt/oracle/tools/nodejs/apps
 RUN git clone https://github.com/kbhanush/ATPConnectionTest
@@ -81,19 +79,15 @@ ADD ojdbc8-full.tar.gz .
 # Sample apps - Java, Python, Node
 # in /opt/oracle/apps/<app_name>
 # Java 
-ENV JAVA_APP /opt/oracle/tools/java/sdk/ATPJava
-# WORKDIR ${JAVA_APP}
-# RUN git clone https://github.com/sblack4/ATP-REST-Java.git ATPJava && \
-#     cd ATPJava && \
-#     mkdir lib
+ENV JAVA_APP /opt/oracle/tools/java/sdk
 WORKDIR ${JAVA_APP}
-RUN wget --content-disposition https://github.com/sblack4/ATP-REST-Java/blob/master/ATPJava.tar.gz?raw=true && \
-    tar xvzf ATPJava.tar.gz && \
-    mkdir lib && \
-    wget http://central.maven.org/maven2/info/picocli/picocli/3.6.1/picocli-3.6.1.jar -P lib
-WORKDIR ${JAVA_APP}/lib
-
-ENV PATH $PATH:${JAVA_APP}/bin
+RUN git clone https://github.com/sblack4/ATP-REST-Java.git ATPJava && \
+    cd ATPJava && \
+    mkdir lib
+WORKDIR ${JAVA_APP}/ATPJava
+ADD https://github.com/sblack4/ATP-REST-Java/releases/download/V0.2/atp-rest-scripts.jar .
+ADD picocli-3.6.1.jar lib
+ENV PATH $PATH:${JAVA_APP}/ATPJava/bin
 
 # Python
 ENV PYTHON_APP /opt/oracle/tools/python/sdk
@@ -113,7 +107,6 @@ ENV PATH $PATH:${NODE_APP}/ATPNode
 # Uninstall packages
 RUN echo "Cleaning up yum packages........................." && \
     yum -y remove unzip && \
-    yum -y remove wget && \
     yum -y remove git
    
 # CMD ["sh", "run-java-examples.sh"]
