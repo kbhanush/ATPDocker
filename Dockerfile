@@ -26,8 +26,8 @@ RUN echo "Installing EPEL, python-pip, unzip, libaio, oci_cli, requests, cx_Orac
     yum clean all
 
     
-RUN echo 'installing oci_cli, requests, cx_Oracle' && \
-    pip install oci_cli requests cx_Oracle
+RUN echo 'installing oci, requests, cx_Oracle' && \
+    pip install oci_cli oci requests cx_Oracle
 
 
 # Setup folder structure
@@ -53,7 +53,8 @@ RUN echo "Installing instant client........" && \
    rpm -ivh ${SQLPLUS} && \
    unzip ${SQLCL} && \
    rm ${INSTANT_CLIENT} ${SQLPLUS} ${SQLCL} && \
-   mkdir -p /opt/oracle/database/wallet
+   mkdir -p /opt/oracle/database/wallet && \
+   mkdir /opt/oracle/tools/oci
 
 #set env variables
 #ENV ORACLE_BASE /opt/oracle/lib/instantclient_12_2
@@ -97,12 +98,12 @@ ENV JAVA_APP /opt/oracle/tools/java/sdk/ATPJava
 # RUN git clone https://github.com/sblack4/ATP-REST-Java.git ATPJava && \
 #     cd ATPJava && \
 #     mkdir lib
-WORKDIR ${JAVA_APP}
-RUN wget --content-disposition https://github.com/sblack4/ATP-REST-Java/blob/master/ATPJava.tar.gz?raw=true && \
-    tar xvzf ATPJava.tar.gz && \
-    mkdir lib && \
-    wget http://central.maven.org/maven2/info/picocli/picocli/3.6.1/picocli-3.6.1.jar -P lib
-WORKDIR ${JAVA_APP}/lib
+#WORKDIR ${JAVA_APP}
+#RUN wget --content-disposition https://github.com/sblack4/ATP-REST-Java/blob/master/ATPJava.tar.gz?raw=true && \
+#    tar xvzf ATPJava.tar.gz && \
+#    mkdir lib && \
+#    wget http://central.maven.org/maven2/info/picocli/picocli/3.6.1/picocli-3.6.1.jar -P lib
+#WORKDIR ${JAVA_APP}/lib
 
 ENV PATH $PATH:${JAVA_APP}/bin
 
@@ -111,6 +112,7 @@ ENV PYTHON_APP /opt/oracle/tools/python/sdk
 WORKDIR ${PYTHON_APP}
 RUN git clone https://github.com/dannymartin/ATPPython.git && \
    mv ATPPython/python/sdk/* . && \
+   mv ATPPython/oci-cli-setup-examples.txt /opt/oracle/tools/oci/ && \
    mkdir ../apps && \
    mv exampleConnection.py sales.csv ../apps && \
    rm -r ATPPython
