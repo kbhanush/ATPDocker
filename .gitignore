@@ -8,7 +8,9 @@ target
 *.pyc
 
 # secret stuff 
+.oci
 .oci/config
+wallet*
 *.pem
 .md
 
