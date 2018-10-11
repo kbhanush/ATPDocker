@@ -1,14 +1,15 @@
 
 # Java 
-*.jar
-target
 .idea 
+picocli*
 
 # Python 
 *.pyc
 
 # secret stuff 
+.oci
 .oci/config
+wallet*
 *.pem
 .md
 
