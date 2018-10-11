@@ -62,14 +62,14 @@ ADD ${OCI_DIR} /root/.oci
 
 # ==========================================
 # install node app
-# WORKDIR /opt/oracle/tools/nodejs
-# RUN mkdir sdk apps
-# # Get the ATPConnectionTest node app
-# WORKDIR /opt/oracle/tools/nodejs/apps
-# RUN git clone https://github.com/kbhanush/ATPConnectionTest && \
-#     mv ATPConnectionTest/* . && \
-#     rm -r ATPConnectionTest
-# EXPOSE 3050
+WORKDIR /opt/oracle/tools/nodejs
+RUN mkdir sdk apps
+# Get the ATPConnectionTest node app
+WORKDIR /opt/oracle/tools/nodejs/apps
+RUN git clone https://github.com/kbhanush/ATPConnectionTest && \
+    mv ATPConnectionTest/* . && \
+    rm -r ATPConnectionTest
+EXPOSE 3050
 
 # ==========================================
 # install Sample apps - Java SDK sample 
@@ -106,26 +106,26 @@ RUN mv ojdbc8-full/*.jar .
 
 # ==========================================
 # Python SDK sample app
-# ENV PYTHON_APP /opt/oracle/tools/python/sdk
-# WORKDIR ${PYTHON_APP}
-# RUN git clone https://github.com/dannymartin/ATPPython.git && \
-#    mv ATPPython/python/sdk/* . && \
-#    mkdir ../apps && \
-#    mv exampleConnection.py sales.csv ../apps && \
-#    rm -r ATPPython
-# ENV PATH $PATH:${PYTHON_APP}/
+ENV PYTHON_APP /opt/oracle/tools/python/sdk
+WORKDIR ${PYTHON_APP}
+RUN git clone https://github.com/dannymartin/ATPPython.git && \
+   mv ATPPython/python/sdk/* . && \
+   mkdir ../apps && \
+   mv exampleConnection.py sales.csv ../apps && \
+   rm -r ATPPython
+ENV PATH $PATH:${PYTHON_APP}/
 
 # ==========================================
 # Node REST calls sample app
-# ENV NODE_APP /opt/oracle/tools/nodejs/apps
-# WORKDIR ${NODE_APP}
-# RUN git clone https://github.com/kbhanush/ATP-REST-nodejs.git && \
-#     mv ATP-REST-nodejs/* sdk/ && \
-#     rm -r ATP-REST-nodejs && \
-#     cd sdk && \
-#     npm install -g oracledb http-signature jssha && \
-#     npm install
-# ENV PATH $PATH:${NODE_APP}
+ENV NODE_APP /opt/oracle/tools/nodejs/apps
+WORKDIR ${NODE_APP}
+RUN git clone https://github.com/kbhanush/ATP-REST-nodejs.git && \
+    mv ATP-REST-nodejs/* sdk/ && \
+    rm -r ATP-REST-nodejs && \
+    cd sdk && \
+    npm install -g oracledb http-signature jssha && \
+    npm install
+ENV PATH $PATH:${NODE_APP}
 
 
 # Uninstall packages

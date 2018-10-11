@@ -1,7 +1,5 @@
 
 # Java 
-*.jar
-target
 .idea 
 
 # Python 
