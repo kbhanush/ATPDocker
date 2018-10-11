@@ -1,6 +1,7 @@
 
 # Java 
 .idea 
+picocli*
 
 # Python 
 *.pyc
