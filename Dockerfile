@@ -105,12 +105,12 @@ RUN tar xvzf ojdbc8-full.tar.gz && \
     mv ojdbc8-full/* .
 
 # ==========================================
-# Python SDK sample app
+# Python SDK sample app, also setup for OCI-CLI bash scripts
 ENV PYTHON_APP /opt/oracle/tools/python/sdk
 WORKDIR ${PYTHON_APP}
 RUN git clone https://github.com/dannymartin/ATPPython.git && \
    mv ATPPython/python/sdk/* . && \
-   mv ATPPython/oci-cli-setup-examples.txt /opt/oracle/tools/oci/ && \
+   mv ATPPython/oci/* /opt/oracle/tools/oci/ && \
    mkdir ../apps && \
    mv exampleConnection.py sales.csv ../apps && \
    rm -r ATPPython
@@ -123,6 +123,8 @@ WORKDIR ${NODE_APP}
 RUN git clone https://github.com/kbhanush/ATP-REST-nodejs.git && \
     mv ATP-REST-nodejs/* . && \
     rm -r ATP-REST-nodejs && \
+    node -v && \
+    npm -v && \
     npm install -g oracledb http-signature jssha && \
     npm install
 ENV PATH $PATH:${NODE_APP}
