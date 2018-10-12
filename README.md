@@ -1,20 +1,20 @@
 # ATP Docker 
 Sample Scripts to get started with Oracle's OCI SDK & CLI. Packaged with love in one Docker image. 
 
-
 ## About
-Try out the Oracle Cloud Infrastructure Java SDK! I've tried to make this as simple as possible, but to *reallly* use the SDK you must read the docs! For developing read the appropriate sdk docs, but if all you want to do is run this app you can get by with the SDK/CLI configuration docs. They will walk you through getting the required values to authenticate. 
+Try out the Oracle Cloud Infrastructure developer tooling! I've tried to make this as simple as possible, but to *reallly* use the SDK you must read the docs! For developing read the appropriate sdk docs, but if all you want to do is run this app you can get by with the SDK/CLI configuration docs. They will walk you through getting the required values to authenticate. 
 
 - java sdk  https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/javasdk.htm 
 - python sdk https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/pythonsdk.htm
 - sdk/cli config docs https://docs.cloud.oracle.com/iaas/Content/API/Concepts/sdkconfig.htm 
+- OCI CLI https://github.com/oracle/oci-cli 
+- REST API https://docs.cloud.oracle.com/iaas/api/
 
 
 ### Example Scripts 
 these are the scripts, try them out with `node <command>.js`, `python <command>.py`, or `<command>` for java :)
 
-For java the [Class Path](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html) can be long I've written shell scripts 
-to make demoing the functionality easier :) 
+For java the [Class Path](https://docs.oracle.com/javase/tutorial/essential/environment/paths.html) can be long I've written shell scripts to make demoing the functionality easier :) 
 
 listed as `COMMAND [-h for help] [arg_1 arg_2 ...]` 
 
@@ -32,17 +32,27 @@ updateAutonomousDatabase CPUCount StorageInTBs DBOCID
 
 ### Docker Image Contents 
 
+This image has a lot, including  
+    - SQLCL
+    - SQLPlus
+    - OCI CLI 
+    - `nano`
+    - A bunch of sample apps, listed below
+
 ```bash
 /opt/oracle/tools/oci
 
 # Example OCI-SDK Java App
-/opt/oracle/tools/java/sdk/ATPJava
+/opt/oracle/tools/java/sdk
 
 # Example OCI-SDK Python App
-/opt/oracle/tools/python/sdk/ATPPython
+/opt/oracle/tools/python/sdk
 
 # Example OCI Nodejs App
-/opt/oracle/tools/node/ATPNode
+/opt/oracle/tools/nodejs/apps
+
+# REST calls in nodejs
+/opt/oracle/tools/nodejs/sdk
 
 ```
 
@@ -63,13 +73,13 @@ To run you'll need to get those values and make sure that you've got Docker inst
     - ojdbc8 (v18.3) https://www.oracle.com/technetwork/database/application-development/jdbc/downloads/index.html 
     - [sqlplus](https://www.oracle.com/technetwork/topics/linuxx86-64soft-092277.html) oracle-instantclient12.2-basic-12.2.0.1.0-1.x86_64.rpm 
 6. build the docker image with `docker build -t oci .`
-7. run the docker container with `docker run -it oci bash`
-1. in another terminal window copy your `~/.oci` to your container by running the command 
+7. run the docker container with the convenience script `./run-docker.sh`
+
+If you ran the container without mounting the wallet or ~/.oci config file you can copy them to the container like below
 ```bash
 docker cp ~/.oci <CONTAINER_NAME>:/root
 ```
-1. also copy over your wallet file if you want to connect to the database
-8. play with the example scripts! the container has the text editor `nano`
+You will need your wallet file if you want to connect to the database
 
 
 \* see this but fill it in with your own values :)  
@@ -87,6 +97,6 @@ region=us-ashburn-1
 ## Thanks 
 - https://github.com/kbhanush/ATP-REST-nodejs
 - https://github.com/dannymartin/ATPPython
-- https://github.com/sblack4/ATP-REST-Java
+- https://github.com/sblack4/ATPJava
 - https://github.com/kbhanush/aOne
 - https://github.com/christopherbeck/OCI-Rest-APIs-nodejs 

@@ -19,7 +19,6 @@ RUN echo "Installing EPEL, python-pip, unzip, libaio, oci_cli, requests, cx_Orac
     yum -y install nano && \
     yum clean all
 
-
 # install from pip
 RUN echo 'installing oci_cli, requests, cx_Oracle' && \
     pip install oci_cli requests cx_Oracle
@@ -47,18 +46,6 @@ ENV LD_LIBRARY_PATH /usr/lib/oracle/12.2/client64/lib/:$LD_LIBRARY_PATH
 ENV TNS_ADMIN /opt/oracle/database/wallet/
 ENV ORACLE_HOME /opt/oracle/lib/instantclient_12_2
 ENV PATH $PATH:/usr/lib/oracle/12.2/client64/bin:/opt/oracle/lib/sqlcl/bin
-
-# ==========================================
-# add wallet and .oci dir
-# TODO: change to volume command 
-ENV WALLET_DIRECTORY wallet_REALAPPLICATI.zip
-WORKDIR /opt/oracle/database/wallet
-
-#ADD ${WALLET_DIRECTORY} /opt/oracle/database/wallet/
-#RUN ls /opt/oracle/database/wallet/ && \
-#    unzip wallet_REALAPPLICATI.zip && \
-#    sed -i s~"?/network/admin"~"/opt/oracle/database/wallet"~g /opt/oracle/database/wallet/sqlnet.ora
-
 
 # ==========================================
 # install node app
@@ -136,3 +123,4 @@ RUN echo "Cleaning up yum packages........................." && \
     yum -y remove wget && \
     yum -y remove git
    
+WORKDIR /opt/oracle/tools
